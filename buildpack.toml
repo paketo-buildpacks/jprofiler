@@ -58,7 +58,7 @@ api = "0.7"
     id = "jprofiler"
     name = "JProfiler Agent"
     purl = "pkg:generic/jprofiler-agent@13.0.3?arch=amd64"
-    sha256 = "e8460eadd53b5354dcfc2230ca5629ad5f2028b0e1c12bfe2b3591310b8af501"
+    sha256 = "7d9e4dcb41339002457dbce311724333a20b9e8a5754a3f3b248656034136906"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
     uri = "https://download-gcdn.ej-technologies.com/jprofiler/jprofiler_linux_13_0_3.tar.gz"
     version = "13.0.3"
