@@ -19,7 +19,7 @@ api = "0.7"
   homepage = "https://github.com/paketo-buildpacks/jprofiler"
   id = "paketo-buildpacks/jprofiler"
   keywords = ["jprofiler", "agent", "profiler", "java"]
-  name = "Paketo JProfiler Buildpack"
+  name = "Paketo Buildpack for JProfiler"
   sbom-formats = ["application/vnd.syft+json", "application/vnd.cyclonedx+json"]
   version = "{{.version}}"
 
