@@ -54,14 +54,14 @@ api = "0.7"
     name = "BP_JPROFILER_ENABLED"
 
   [[metadata.dependencies]]
-    cpes = ["cpe:2.3:a:jprofiler:agent:13.0.5:*:*:*:*:*:*:*"]
+    cpes = ["cpe:2.3:a:jprofiler:agent:13.0.6:*:*:*:*:*:*:*"]
     id = "jprofiler"
     name = "JProfiler Agent"
-    purl = "pkg:generic/jprofiler-agent@13.0.5?arch=amd64"
-    sha256 = "b2cc21d00429137e76c4614ed0ba5afc18fa1bcbea3a9514c99c7371bc050cfd"
+    purl = "pkg:generic/jprofiler-agent@13.0.6?arch=amd64"
+    sha256 = "a2b8c149a0bb36f29c6a4f914846bd574e682f71192019e9ed3c9a5fff171728"
     stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-    uri = "https://download-gcdn.ej-technologies.com/jprofiler/jprofiler_linux_13_0_5.tar.gz"
-    version = "13.0.5"
+    uri = "https://download-gcdn.ej-technologies.com/jprofiler/jprofiler_linux_13_0_6.tar.gz"
+    version = "13.0.6"
 
     [[metadata.dependencies.licenses]]
       uri = "https://www.ej-technologies.com/buy/jprofiler/licensing.html"
