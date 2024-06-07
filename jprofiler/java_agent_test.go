@@ -17,7 +17,6 @@
 package jprofiler_test
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -40,7 +39,7 @@ func testJavaAgent(t *testing.T, context spec.G, it spec.S) {
 	it.Before(func() {
 		var err error
 
-		ctx.Layers.Path, err = ioutil.TempDir("", "java-agent-layers")
+		ctx.Layers.Path = t.TempDir()
 		Expect(err).NotTo(HaveOccurred())
 	})
 
@@ -48,23 +47,55 @@ func testJavaAgent(t *testing.T, context spec.G, it spec.S) {
 		Expect(os.RemoveAll(ctx.Layers.Path)).To(Succeed())
 	})
 
-	it("contributes Java agent", func() {
-		dep := libpak.BuildpackDependency{
-			URI:    "https://localhost/stub-jprofiler-agent.tar.gz",
-			SHA256: "9ec6fd679560481ff82d59397ffa289028e2c68df41802d172b35884b84b304d",
-		}
-		dc := libpak.DependencyCache{CachePath: "testdata"}
+	context("BP_ARCH=amd64", func() {
+		it.Before(func() {
+			t.Setenv("BP_ARCH", "amd64")
+		})
 
-		j, _ := jprofiler.NewJavaAgent(dep, dc)
-		layer, err := ctx.Layers.Layer("test-layer")
-		Expect(err).NotTo(HaveOccurred())
+		it("contributes Java agent", func() {
+			dep := libpak.BuildpackDependency{
+				URI:    "https://localhost/stub-jprofiler-agent.tar.gz",
+				SHA256: "9ec6fd679560481ff82d59397ffa289028e2c68df41802d172b35884b84b304d",
+			}
+			dc := libpak.DependencyCache{CachePath: "testdata"}
 
-		layer, err = j.Contribute(layer)
-		Expect(err).NotTo(HaveOccurred())
+			j, _ := jprofiler.NewJavaAgent(dep, dc)
+			layer, err := ctx.Layers.Layer("test-layer")
+			Expect(err).NotTo(HaveOccurred())
 
-		Expect(layer.Launch).To(BeTrue())
-		Expect(filepath.Join(layer.Path, "fixture-marker")).To(BeARegularFile())
-		Expect(layer.LaunchEnvironment["BPI_JPROFILER_AGENT_PATH.default"]).To(
-			Equal(filepath.Join(layer.Path, "bin", "linux-x64", "libjprofilerti.so")))
+			layer, err = j.Contribute(layer)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(layer.Launch).To(BeTrue())
+			Expect(filepath.Join(layer.Path, "fixture-marker")).To(BeARegularFile())
+			Expect(layer.LaunchEnvironment["BPI_JPROFILER_AGENT_PATH.default"]).To(
+				Equal(filepath.Join(layer.Path, "bin", "linux-x64", "libjprofilerti.so")))
+		})
+	})
+
+	context("BP_ARCH=arm64", func() {
+		it.Before(func() {
+			t.Setenv("BP_ARCH", "arm64")
+		})
+
+		it("contributes Java agent", func() {
+			dep := libpak.BuildpackDependency{
+				URI:    "https://localhost/stub-jprofiler-agent.tar.gz",
+				SHA256: "9ec6fd679560481ff82d59397ffa289028e2c68df41802d172b35884b84b304d",
+			}
+			dc := libpak.DependencyCache{CachePath: "testdata"}
+
+			j, _ := jprofiler.NewJavaAgent(dep, dc)
+			layer, err := ctx.Layers.Layer("test-layer")
+			Expect(err).NotTo(HaveOccurred())
+
+			layer, err = j.Contribute(layer)
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(layer.Launch).To(BeTrue())
+			Expect(filepath.Join(layer.Path, "fixture-marker")).To(BeARegularFile())
+			Expect(layer.LaunchEnvironment["BPI_JPROFILER_AGENT_PATH.default"]).To(
+				Equal(filepath.Join(layer.Path, "bin", "linux-aarch64", "libjprofilerti.so")))
+		})
 	})
 }

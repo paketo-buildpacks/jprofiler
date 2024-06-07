@@ -34,6 +34,10 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		ctx libcnb.BuildContext
 	)
 
+	it.Before(func() {
+		t.Setenv("BP_ARCH", "amd64")
+	})
+
 	it("contributes Java agent API <= 0.6", func() {
 		ctx.Buildpack.Metadata = map[string]interface{}{
 			"dependencies": []map[string]interface{}{
