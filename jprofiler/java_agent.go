@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
@@ -45,12 +46,13 @@ func (j JavaAgent) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 	return j.LayerContributor.Contribute(layer, func(artifact *os.File) (libcnb.Layer, error) {
 		j.Logger.Bodyf("Expanding to %s", layer.Path)
 
-		if err := crush.ExtractTarGz(artifact, layer.Path, 1); err != nil {
+		if err := crush.Extract(artifact, layer.Path, 1); err != nil {
 			return libcnb.Layer{}, fmt.Errorf("unable to expand JProfiler\n%w", err)
 		}
 
+		arch := archForAgent()
 		layer.LaunchEnvironment.Default("BPI_JPROFILER_AGENT_PATH",
-			filepath.Join(layer.Path, "bin", "linux-x64", "libjprofilerti.so"))
+			filepath.Join(layer.Path, "bin", fmt.Sprintf("linux-%s", arch), "libjprofilerti.so"))
 
 		return layer, nil
 	})
@@ -58,4 +60,19 @@ func (j JavaAgent) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 
 func (j JavaAgent) Name() string {
 	return j.LayerContributor.LayerName()
+}
+
+func archForAgent() string {
+	archFromEnv, ok := os.LookupEnv("BP_ARCH")
+	if !ok {
+		archFromEnv = runtime.GOARCH
+	}
+
+	if archFromEnv == "amd64" {
+		return "x64"
+	} else if archFromEnv == "arm64" {
+		return "aarch64"
+	} else {
+		return archFromEnv
+	}
 }
