@@ -39,6 +39,11 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{Pass: false}))
 	})
 
+	it("fails with BP_JPROFILER_ENABLED set to false", func() {
+		Expect(os.Setenv("BP_JPROFILER_ENABLED", "false")).To(Succeed())
+		Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{Pass: false}))
+	})
+
 	context("$BP_JPROFILER_ENABLED", func() {
 		it.Before(func() {
 			Expect(os.Setenv("BP_JPROFILER_ENABLED", "true")).To(Succeed())

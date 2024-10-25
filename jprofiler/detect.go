@@ -31,7 +31,7 @@ func (Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error) 
 		return libcnb.DetectResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
 	}
 
-	if _, ok := cr.Resolve("BP_JPROFILER_ENABLED"); !ok {
+	if isEnabled := cr.ResolveBool("BP_JPROFILER_ENABLED"); !isEnabled {
 		return libcnb.DetectResult{Pass: false}, nil
 	}
 

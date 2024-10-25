@@ -37,9 +37,15 @@ func testProperties(t *testing.T, context spec.G, it spec.S) {
 		Expect(p.Execute()).To(BeNil())
 	})
 
+	it("returns nil if $BPL_JPROFILER_ENABLED is false", func() {
+		Expect(os.Setenv("BPL_JPROFILER_ENABLED", "false")).To(Succeed())
+		Expect(p.Execute()).To(BeNil())
+		Expect(os.Unsetenv("BPL_JPROFILER_ENABLED")).To(Succeed())
+	})
+
 	context("$BPL_JPROFILER_ENABLED", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BPL_JPROFILER_ENABLED", "")).To(Succeed())
+			Expect(os.Setenv("BPL_JPROFILER_ENABLED", "true")).To(Succeed())
 		})
 
 		it.After(func() {
