@@ -23,6 +23,7 @@ import (
 	"strings"
 
 	"github.com/paketo-buildpacks/libpak/bard"
+	"github.com/paketo-buildpacks/libpak/sherpa"
 )
 
 type Properties struct {
@@ -30,7 +31,8 @@ type Properties struct {
 }
 
 func (p Properties) Execute() (map[string]string, error) {
-	if _, ok := os.LookupEnv("BPL_JPROFILER_ENABLED"); !ok {
+
+	if isEnabled := sherpa.ResolveBool("BPL_JPROFILER_ENABLED"); !isEnabled {
 		return nil, nil
 	}
 
