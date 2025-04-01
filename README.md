@@ -1,4 +1,4 @@
-# `docker.io/paketobuildpacks/jprofiler`
+# `paketobuildpacks/jprofiler`
 The Paketo Buildpack for JProfiler is a Cloud Native Buildpack that contributes the JProfiler agent and configures it to connect to the service.
 
 ## Behavior
