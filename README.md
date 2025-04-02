@@ -1,4 +1,7 @@
-# `docker.io/paketobuildpacks/jprofiler`
+# Paketo Buildpack for JProfiler
+
+## Buildpack ID: `paketo-buildpacks/jprofiler`
+## Registry URLs: `docker.io/paketobuildpacks/jprofiler`
 The Paketo Buildpack for JProfiler is a Cloud Native Buildpack that contributes the JProfiler agent and configures it to connect to the service.
 
 ## Behavior
