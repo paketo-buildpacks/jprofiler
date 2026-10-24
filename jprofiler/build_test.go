@@ -59,9 +59,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(result.Layers[1].Name()).To(Equal("helper"))
 		Expect(result.Layers[1].(libpak.HelperLayerContributor).Names).To(Equal([]string{"properties"}))
 
-		Expect(result.BOM.Entries).To(HaveLen(2))
-		Expect(result.BOM.Entries[0].Name).To(Equal("jprofiler"))
-		Expect(result.BOM.Entries[1].Name).To(Equal("helper"))
+		Expect(result.BOM.Entries).To(HaveLen(2))                 //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Name).To(Equal("jprofiler")) //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[1].Name).To(Equal("helper"))    //nolint:staticcheck // hold off on the BOM migration for now
 	})
 
 	it("contributes Java agent API >= 0.7", func() {
@@ -87,8 +87,8 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(result.Layers[1].Name()).To(Equal("helper"))
 		Expect(result.Layers[1].(libpak.HelperLayerContributor).Names).To(Equal([]string{"properties"}))
 
-		Expect(result.BOM.Entries).To(HaveLen(2))
-		Expect(result.BOM.Entries[0].Name).To(Equal("jprofiler"))
-		Expect(result.BOM.Entries[1].Name).To(Equal("helper"))
+		Expect(result.BOM.Entries).To(HaveLen(2))                 //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[0].Name).To(Equal("jprofiler")) //nolint:staticcheck // hold off on the BOM migration for now
+		Expect(result.BOM.Entries[1].Name).To(Equal("helper"))    //nolint:staticcheck // hold off on the BOM migration for now
 	})
 }
