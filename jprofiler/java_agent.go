@@ -33,8 +33,8 @@ type JavaAgent struct {
 	Logger           bard.Logger
 }
 
-func NewJavaAgent(dependency libpak.BuildpackDependency, cache libpak.DependencyCache) (JavaAgent, libcnb.BOMEntry) {
-	contributor, entry := libpak.NewDependencyLayer(dependency, cache, libcnb.LayerTypes{
+func NewJavaAgent(dependency libpak.BuildpackDependency, cache libpak.DependencyCache) (JavaAgent, libcnb.BOMEntry) { //nolint:staticcheck // hold off on the BOM migration for now
+	contributor, entry := libpak.NewDependencyLayer(dependency, cache, libcnb.LayerTypes{ //nolint:staticcheck // hold off on the BOM migration for now
 		Launch: true,
 	})
 	return JavaAgent{LayerContributor: contributor}, entry
@@ -68,11 +68,12 @@ func archForAgent() string {
 		archFromEnv = runtime.GOARCH
 	}
 
-	if archFromEnv == "amd64" {
+	switch archFromEnv {
+	case "amd64":
 		return "x64"
-	} else if archFromEnv == "arm64" {
+	case "arm64":
 		return "aarch64"
-	} else {
+	default:
 		return archFromEnv
 	}
 }
